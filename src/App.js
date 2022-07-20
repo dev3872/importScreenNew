@@ -1,25 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
-
+import "./App.css";
+import AntdTable from "./AntTable";
+import { data } from "./data";
+import { useState } from "react";
+export const sortFunction = (field, attribute, order) => {
+	if (order === "ascending") {
+		//ascending
+		return field.sort((a, b) =>
+			a[attribute] > b[attribute] ? 1 : b[attribute] > a[attribute] ? -1 : 0
+		);
+	} else {
+		//descending
+		return field.sort((a, b) =>
+			a[attribute] < b[attribute] ? 1 : b[attribute] < a[attribute] ? -1 : 0
+		);
+	}
+};
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+	const [field, setField] = useState(data);
+	const sortRow = (attribute, order) => {
+		setField([...sortFunction(field,attribute,order)])
+	};
+	return (
+		<div className="App">
+			<AntdTable data={field} sortRow={sortRow}/>
+		</div>
+	);
 }
 
 export default App;
